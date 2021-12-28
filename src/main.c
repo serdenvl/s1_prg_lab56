@@ -87,10 +87,28 @@ double array_min(double* array, int length)
     return res; 
 }
 
+#define description "Задание: \n\
+Сформировать матрицу размера NxN\n\
+Вывести средние арифметические столбцов, исключая главную диагональ\n\
+Вывести наименьшее из значений вектора\n\
+"
+
+/**/ #define IS_STATIC /**/
+#ifdef IS_STATIC
+    #define DEF_ARRAY(t,name,M,N) t name[M][N]
+    #define ARRAY_TYPE_MESSAGE "статическим"
+#else
+    #define DEF_ARRAY(t,name,M,N) t *name = malloc(M*N*sizeof(t))
+    #define ARRAY_TYPE_MESSAGE "динамическим"
+#endif
+
 int main()
 {
+    printf(description);
+    printf("\nВариант с " ARRAY_TYPE_MESSAGE " массивом.\n\n");
+
     int N = select_size();
-    int matrix[N][N];
+    DEF_ARRAY(int, matrix, N, N);
     
     printf("\n");
     fill_matrix(N, N, matrix);
