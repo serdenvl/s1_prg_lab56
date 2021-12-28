@@ -29,7 +29,7 @@ int scan_int(char* message)
 {
     int buff;
 
-    if (message != "")
+    if (message != 0)
     {
         if (message[0] != '\n')
             printf("\n");
@@ -62,10 +62,18 @@ void print_array(int *array, int length)
     printf("|");
 }
 
+void print_array_double(double *array, int length)
+{
+    printf("| ");
+    for (int i = 0; i < length; ++i)
+        printf("%.2lf ", array[i]);
+    printf("|");
+}
+
 int scan_variant(char* message, int count, char* variantes[count])
 {
     printf(message);
-    printf("\nВыберите вариант (0-%d или enter для выбора варианта по умолчанию)", count-1);
+    printf(" (введите 0-%d)", count-1);
 
     char buff;
 
@@ -80,8 +88,6 @@ int scan_variant(char* message, int count, char* variantes[count])
 
         if('0' <= buff && buff < '0' + count)
             return buff - '0';
-        if(buff == '\n')
-            return 0;
 
         printf("wrong\n");
     }

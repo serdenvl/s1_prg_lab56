@@ -26,7 +26,7 @@ int select_size()
         "Ввести вручную",
     });
 
-    return (v == 0) ? 5 : scan_int_min("Размер матрицы: ",1);
+    return (v == 0) ? 5 : scan_int_min("Размер матрицы: ", 2);
 }
 
 void fill_matrix(int M, int N, int matrix[M][N])
@@ -37,20 +37,23 @@ void fill_matrix(int M, int N, int matrix[M][N])
         "Ввести вручную",
     });
 
-    if(v < 2)
+    if(v == 0 || v == 1)
     {
-        int min = (v == 0) ? 10 : scan_int("Минимум: ");
-        int max = (v == 0) ? 29 : scan_int("Максимум: ");
+        int min = (v == 0) ? 10 : scan_int("min, max:");
+        int max = (v == 0) ? 29 : scan_int(0);
+
+        printf("\nМинимум: %d\nМаксимум: %d", min, max);
 
         for(int i = 0; i < M; ++i)
             for(int j = 0; j < N; ++j)
                 matrix[i][j] = random(min, max);
     }
-    else if(v == 3)
+    else
     {
+        printf("Элементы: ");
         for(int i = 0; i < M; ++i)
             for(int j = 0; j < N; ++j)
-                matrix[i][j] = scan_int("");
+                matrix[i][j] = scan_int(0);
     }
 }
 
@@ -63,10 +66,9 @@ void print_matrix(int M, int N, int matrix[M][N])
             printf("%d ", matrix[i][j]);
         printf("|");
     }
-    printf("\n\n");
 }
 
-void strange_average_columns(int M, int N, int matrix[M][N], int averages[N])
+void strange_average_columns(int M, int N, int matrix[M][N], double averages[N])
 {
     for(int j = 0; j < N; ++j)
         averages[j] = 0;
@@ -77,9 +79,9 @@ void strange_average_columns(int M, int N, int matrix[M][N], int averages[N])
         averages[j] /= N-1;
 }
 
-int array_min(int* array, int length)
+double array_min(double* array, int length)
 {
-    int res = array[0];
+    double res = array[0];
     for(int i = 1; i < length; ++i)
         res = (array[i] < res) ? array[i] : res;
     return res; 
@@ -90,16 +92,16 @@ int main()
     int N = select_size();
     int matrix[N][N];
     
+    printf("\n");
     fill_matrix(N, N, matrix);
 
-    printf("Матрица: ");
+    printf("\n\nМатрица: ");
     print_matrix(N, N, matrix);
 
-    int averages[N];
+    double averages[N];
     strange_average_columns(N, N, matrix, averages);
-    printf("\nСреднее арифметическое стобцов: ");
-    print_array(averages, N);
+    printf("\n\nСреднее арифметическое стобцов: ");
+    print_array_double(averages, N);
 
-    printf("\nМинимум из средних арифметических: %d", array_min(averages, N));
-
+    printf("\nМинимум из средних арифметических: %.2lf", array_min(averages, N));
 }
