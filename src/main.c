@@ -22,7 +22,7 @@ int select_size()
     return (v == 0) ? 5 : scan_int_min("Размер матрицы: ", 2);
 }
 
-void fill_matrix(int M, int N, int matrix[M][N])
+void fill_matrix(int M, int N, int* matrix)
 {
     int v = scan_variant("Выберите способ заполнения матрицы", 3, (char*[]){
         "Заполнить случайными числами в диапазоне [10,29]",
@@ -39,35 +39,35 @@ void fill_matrix(int M, int N, int matrix[M][N])
 
         for(int i = 0; i < M; ++i)
             for(int j = 0; j < N; ++j)
-                matrix[i][j] = random(min, max);
+                *(matrix+j+i*N) = random(min, max);
     }
     else
     {
         printf("Элементы: ");
         for(int i = 0; i < M; ++i)
             for(int j = 0; j < N; ++j)
-                matrix[i][j] = scan_int(0);
+                *(matrix+j+i*N) = scan_int(0);
     }
 }
 
-void print_matrix(int M, int N, int matrix[M][N])
+void print_matrix(int M, int N, int* matrix)
 {
     for(int i = 0; i < M; ++i)
     {
         printf("\n| ");
         for(int j = 0; j < N; ++j)
-            printf("%d ", matrix[i][j]);
+            printf("%d ", (*(matrix+j+i*N)));
         printf("|");
     }
 }
 
-void strange_average_columns(int M, int N, int matrix[M][N], double averages[N])
+void strange_average_columns(int M, int N, int* matrix, double averages[N])
 {
     for(int j = 0; j < N; ++j)
         averages[j] = 0;
     for(int i = 0; i < M; ++i)
         for(int j = 0; j < N; ++j)
-            averages[j] += (i != j) ? matrix[i][j] : 0;
+            averages[j] += (i != j) ? (*(matrix+j+i*N)) : 0;
     for(int j = 0; j < N; ++j)
         averages[j] /= N-1;
 }
