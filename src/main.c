@@ -93,12 +93,14 @@ double array_min(double* array, int length)
 Вывести наименьшее из значений вектора\n\
 "
 
-/**/ #define IS_STATIC /**/
+/** #define IS_STATIC /**/
 #ifdef IS_STATIC
     #define DEF_ARRAY(t,name,M,N) t name[M][N]
+    #define DEF_FREE(name) //
     #define ARRAY_TYPE_MESSAGE "статическим"
 #else
     #define DEF_ARRAY(t,name,M,N) t *name = malloc(M*N*sizeof(t))
+    #define DEF_FREE(name) free(name);
     #define ARRAY_TYPE_MESSAGE "динамическим"
 #endif
 
@@ -122,4 +124,7 @@ int main()
     print_array_double(averages, N);
 
     printf("\nМинимум из средних арифметических: %.2lf", array_min(averages, N));
+    DEF_FREE(matrix);
+
+    getchar();
 }
